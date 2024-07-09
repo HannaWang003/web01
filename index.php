@@ -22,7 +22,6 @@ include_once "./api/db.php";
             <div id="cvr" style="position:absolute; width:99%; height:100%; margin:auto; z-index:9898;"></div>
         </div>
     </div>
-    <iframe style="display:none;" name="back" id="back"></iframe>
     <div id="main">
         <a title="" href="index.php">
             <div class="ti" style="background:url('./icon/'); background-size:cover;"></div>
@@ -36,7 +35,7 @@ include_once "./api/db.php";
                 </div>
                 <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
                     <span class="t">進站總人數 :
-                        1 </span>
+                        <?= $Total->find(1)['total'] ?> </span>
                 </div>
             </div>
             <div class="di"
