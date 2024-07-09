@@ -72,13 +72,13 @@ class DB
     }
     function find($id)
     {
-        $sql = "select * from `$this->table` ";
+        $sql = "select * from `$this->table` where ";
         if (is_array($id)) {
-            $sql .= " where " . join(" && ", $this->a2s($id));
+            $sql .= join(" && ", $this->a2s($id));
         } elseif (is_numeric($id)) {
-            $sql .= " where `id`='{$id}'";
+            $sql .= "`id`='$id'";
         }
-        $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+        return $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
     }
     function del($id)
     {
@@ -88,10 +88,12 @@ class DB
         } elseif (is_numeric($id)) {
             $sql .= " where `id`='{$id}'";
         }
-        $this->pdo->exec($sql);
+        return $this->pdo->exec($sql);
     }
     function q($sql)
     {
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+$Total = new DB('total');
+$Bottom = new DB('bottom');

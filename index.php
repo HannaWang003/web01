@@ -1,5 +1,5 @@
 <?php
-include_once "db.php";
+include_once "./api/db.php";
 ?>
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -47,9 +47,9 @@ include_once "db.php";
                 <?php
 				$do = $_GET['do'] ?? "main";
 				$file = "./front/$do.php";
-				if(file_exists($file)){
+				if (file_exists($file)) {
 					include $file;
-				}else{
+				} else {
 					include "./front/main.php";
 				}
 
@@ -105,10 +105,9 @@ include_once "db.php";
         <div style="clear:both;"></div>
         <div
             style="width:1024px; left:0px; position:relative; background:#FC3; margin-top:4px; height:123px; display:block;">
-            <span class="t" style="line-height:123px;"></span>
+            <span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bottom'] ?></span>
         </div>
     </div>
-
 </body>
 
 </html>
