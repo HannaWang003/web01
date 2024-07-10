@@ -97,3 +97,16 @@ class DB
 }
 $Total = new DB('total');
 $Bottom = new DB('bottom');
+$Title = new DB('title');
+$Mvim = new DB('mvim');
+$Ad = new DB('ad');
+$Image = new DB('image');
+$Menu = new DB('menu');
+$Admin = new DB('admin');
+$News = new DB('news');
+if (!isset($_SESSION['user'])) {
+    $_SESSION['user'] = 1;
+    $row = $Total->find(1);
+    $row['total']++;
+    $Total->save($row);
+}
