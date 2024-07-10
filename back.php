@@ -1,5 +1,8 @@
 ﻿<?php
 include_once "./api/db.php";
+if (!isset($_SESSION['login'])) {
+    to("index.php");
+}
 ?>
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -24,7 +27,8 @@ include_once "./api/db.php";
     </div>
     <div id="main">
         <a title="" href="index.php">
-            <div class="ti" style="background:url('./icon/'); background-size:cover;"></div>
+            <div class="ti"
+                style="background:url('./icon/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;"></div>
             <!--標題-->
         </a>
         <div id="ms">
@@ -85,7 +89,7 @@ include_once "./api/db.php";
                             <td style="width:70%;font-weight:800; border:#333 1px solid; border-radius:3px;"
                                 class="cent"><a href="?do=admin" style="color:#000; text-decoration:none;">後台管理區</a>
                             </td>
-                            <td><button onclick="location.href='./api/logout.php'"
+                            <td><button onclick="location.href='?do=logout'"
                                     style="width:99%; margin-right:2px; height:50px;">管理登出</button></td>
                         </tr>
                     </tbody>

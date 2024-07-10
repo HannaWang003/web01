@@ -14,6 +14,11 @@ include_once "./api/db.php";
     <script src="./js/jquery-1.9.1.min.js"></script>
     <script src="./js/js.js"></script>
 </head>
+<style>
+a {
+    text-decoration: none;
+}
+</style>
 
 <body>
     <div id="cover" style="display:none; ">
@@ -24,7 +29,8 @@ include_once "./api/db.php";
     </div>
     <div id="main">
         <a title="" href="index.php">
-            <div class="ti" style="background:url('./icon/'); background-size:cover;"></div>
+            <div class="ti"
+                style="background:url('./icon/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;"></div>
             <!--標題-->
         </a>
         <div id="ms">
@@ -32,7 +38,54 @@ include_once "./api/db.php";
                 <div id="menuput" class="dbor">
                     <!--主選單放此-->
                     <span class="t botli">主選單區</span>
+                    <style>
+                    .Mm {
+                        position: relative;
+                    }
+
+                    .subm {
+                        position: relative;
+                        top: -20px;
+                        right: -30px;
+                    }
+                    </style>
+                    <?php
+                    $menus = $Menu->all(['sh' => 1, 'big_id' => 0]);
+                    foreach ($menus as $menu) {
+                    ?>
+                    <div class="Mm">
+                        <a style="color:#000; font-size:13px; text-decoration:none;text-align:center;"
+                            href="<?= $menu['url'] ?>">
+                            <div class="mainmu">
+                                <?= $menu['text'] ?> </div>
+                        </a>
+                        <?php
+                            $subs = $Menu->all(['sh' => 1, 'big_id' => $menu['id']]);
+                            foreach ($subs as $sub) {
+                            ?>
+                        <a class="subm"
+                            style="color:#000; font-size:13px; text-decoration:none;text-align:center;display:none"
+                            href="<?= $sub['url'] ?>">
+                            <div class="mainmu2">
+                                <?= $sub['text'] ?> </div>
+                        </a>
+                        <?php
+                            }
+                            ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
+
                 </div>
+                <script>
+                $('.Mm').hover(function() {
+                    $('.subm').hide();
+                    $(this).children('.subm').show();
+                }, () => {
+                    $('.subm').hide();
+                })
+                </script>
                 <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
                     <span class="t">進站總人數 :
                         <?= $Total->find(1)['total'] ?> </span>
@@ -44,15 +97,15 @@ include_once "./api/db.php";
                 </marquee>
                 <!-- include -->
                 <?php
-				$do = $_GET['do'] ?? "main";
-				$file = "./front/$do.php";
-				if (file_exists($file)) {
-					include $file;
-				} else {
-					include "./front/main.php";
-				}
+                $do = $_GET['do'] ?? "main";
+                $file = "./front/$do.php";
+                if (file_exists($file)) {
+                    include $file;
+                } else {
+                    include "./front/main.php";
+                }
 
-				?>
+                ?>
             </div>
             <div id="alt"
                 style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;">
@@ -74,20 +127,44 @@ include_once "./api/db.php";
             </script>
             <div class="di di ad" style="height:540px; width:23%; padding:0px; margin-left:22px; float:left; ">
                 <!--右邊-->
+                <?php
+                if (isset($_SESSION['login'])) {
+                    $url = "back.php";
+                    $str = "返回管理";
+                } else {
+                    $url = "?do=admin";
+                    $str = "管理登入";
+                }
+                ?>
                 <button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;"
-                    onclick="lo('?do=admin')">管理登入</button>
+                    onclick="lo('<?= $url ?>')"><?= $str ?></button>
                 <div style="width:89%; height:480px;" class="dbor">
                     <span class="t botli">校園映象區</span>
+                    <div
+                        style="display:flex;justify-content:center;align-items:center;flex-direction:column;margin:10px;">
+                        <img src="./icon/up.jpg" onclick="pp(1)">
+                        <?php
+                        $images = $Image->all(['sh' => 1]);
+                        foreach ($images as $idx => $image) {
+                        ?>
+                        <img src="./img/<?= $image['img'] ?>"
+                            style="width:150px;height:100px;margin:5px;border:3px solid orange" class="im"
+                            id="ssaa<?= $idx ?>">
+                        <?php
+                        }
+                        ?>
+                        <img src="./icon/dn.jpg" onclick="pp(2)">
+                    </div>
                     <script>
-                    var nowpage = 0,
-                        num = 0;
+                    var nowpage = 1,
+                        num = <?= $Image->count(['sh' => 1]) ?>;
 
                     function pp(x) {
                         var s, t;
                         if (x == 1 && nowpage - 1 >= 0) {
                             nowpage--;
                         }
-                        if (x == 2 && (nowpage + 1) * 3 <= num * 1 + 3) {
+                        if (x == 2 && nowpage < (num - 3)) {
                             nowpage++;
                         }
                         $(".im").hide()

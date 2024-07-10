@@ -2,7 +2,12 @@
 <?php
 $table = $_GET['do'] ?? "title";
 $DB = ${ucfirst($table)};
-$rows = $DB->all();
+$total = $DB->count();
+$div = 5;
+$pages = ceil($total / $div);
+$now = $_GET['p'] ?? 1;
+$start = ($now - 1) * $div;
+$rows = $DB->all("limit $start,$div");
 ?>
 <form method="post" action="./api/edit.php?table=<?= $table ?>">
     <table width="100%">
@@ -30,6 +35,29 @@ $rows = $DB->all();
 
         </tbody>
     </table>
+    <style>
+    a {
+        text-decoration: none;
+    }
+    </style>
+    <div class="cent">
+        <?php
+        if ($now - 1 > 0) {
+            $prev = $now - 1;
+            echo " <a href='?do=news&p=$prev'> < </a>";
+        }
+        for ($i = 1; $i <= $pages; $i++) {
+            $style = "style='font-size:20px;color:red;'";
+        ?>
+        <a href="?do=news&p=<?= $i ?>" <?= ($now == $i) ? $style : "" ?>><?= $i ?></a>
+        <?php
+        }
+        if ($now + 1 <= $pages) {
+            $next = $now + 1;
+            echo " <a href='?do=news&p=$next'> > </a>";
+        }
+        ?>
+    </div>
     <table style="margin-top:40px; width:70%;">
         <tbody>
             <tr>
