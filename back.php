@@ -1,5 +1,8 @@
 ﻿<?php
 include_once "./api/db.php";
+if (!isset($_SESSION['admin'])) {
+    to("index.php");
+}
 ?>
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -24,7 +27,9 @@ include_once "./api/db.php";
     </div>
     <div id="main">
         <a title="" href="index.php">
-            <div class="ti" style="background:url('use/'); background-size:cover;"></div>
+            <div class="ti"
+                style="background:url('./img/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;"
+                title="<?= $Title->find(['sh' => 1])['text'] ?>"></div>
             <!--標題-->
         </a>
         <div id="ms">
@@ -32,8 +37,7 @@ include_once "./api/db.php";
                 <div id="menuput" class="dbor">
                     <!--主選單放此-->
                     <span class="t botli">後台管理選單</span>
-                    <a style="color:#000; font-size:13px; text-decoration:none;"
-                        href="./Management page_files/Management page.htm">
+                    <a style="color:#000; font-size:13px; text-decoration:none;" href="?do=title">
                         <div class="mainmu">
                             網站標題管理 </div>
                     </a>
@@ -86,7 +90,7 @@ include_once "./api/db.php";
                             <td style="width:70%;font-weight:800; border:#333 1px solid; border-radius:3px;"
                                 class="cent"><a href="?do=admin" style="color:#000; text-decoration:none;">後台管理區</a>
                             </td>
-                            <td><button onclick="document.cookie='user=';location.replace('?')"
+                            <td><button onclick="location.href='?do=logout'"
                                     style="width:99%; margin-right:2px; height:50px;">管理登出</button></td>
                         </tr>
                     </tbody>

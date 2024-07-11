@@ -24,7 +24,8 @@ include_once "./api/db.php";
     </div>
     <div id="main">
         <a title="" href="index.php">
-            <div class="ti" style="background:url('use/'); background-size:cover;"></div>
+            <div class="ti"
+                style="background:url('./img/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;"></div>
             <!--標題-->
         </a>
         <div id="ms">
@@ -32,7 +33,42 @@ include_once "./api/db.php";
                 <div id="menuput" class="dbor">
                     <!--主選單放此-->
                     <span class="t botli">主選單區</span>
+                    <?php
+                    $menus = $Menu->all(['sh' => 1, 'big_id' => 0]);
+                    foreach ($menus as $menu) {
+                    ?>
+                    <div class="nav" sthle="position:relative;">
+                        <a style="color:#000; font-size:13px; text-decoration:none;" href="<?= $menu['href'] ?>">
+                            <div class="mainmu">
+                                <?= $menu['text'] ?></div>
+                        </a>
+                        <?php
+                            $subs = $Menu->all(['sh' => 1, 'big_id' => $menu['id']]);
+                            foreach ($subs as $sub) {
+                            ?>
+                        <a class="sub"
+                            style="color:#000; font-size:13px; text-decoration:none;display:none;width:100%;position:relative;top:-10px;right:-30px"
+                            href="<?= $sub['href'] ?>">
+                            <div class="mainmu2">
+                                <?= $sub['text'] ?></div>
+                        </a>
+                        <?php
+                            }
+                            ?>
+
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
+                <script>
+                $('.nav').hover(function() {
+                        $(this).children('.sub').show();
+                    },
+                    () => {
+                        $('.sub').hide();
+                    })
+                </script>
                 <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
                     <span class="t">進站總人數 :
                         <?= $Total->find(1)['total'] ?></span>
@@ -74,20 +110,43 @@ include_once "./api/db.php";
             </script>
             <div class="di di ad" style="height:540px; width:23%; padding:0px; margin-left:22px; float:left; ">
                 <!--右邊-->
+                <?php
+                if (isset($_SESSION['admin'])) {
+                    $str = "返回管理";
+                    $href = "back.php";
+                } else {
+                    $str = "管理登入";
+                    $href = "?do=admin";
+                }
+                ?>
                 <button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;"
-                    onclick="lo('?do=admin')">管理登入</button>
+                    onclick="lo('<?= $href ?>')"><?= $str ?></button>
                 <div style="width:89%; height:480px;" class="dbor">
                     <span class="t botli">校園映象區</span>
+                    <div style="display:flex;justify-content:center;align-items:center;flex-direction:column">
+                        <img src="./icon/up.jpg" onclick="pp(1)">
+                        <?php
+                        $images = $Image->all(['sh' => 1]);
+                        foreach ($images as $idx => $image) {
+                        ?>
+                        <img src="./img/<?= $image['img'] ?>"
+                            style="width:150px;height:103px;margin:10px;border:5px solid orange" class="im"
+                            id="ssaa<?= $idx ?>">
+                        <?php
+                        }
+                        ?>
+                        <img src="./icon/dn.jpg" onclick="pp(2)">
+                    </div>
                     <script>
-                    var nowpage = 0,
-                        num = 0;
+                    var nowpage = 1,
+                        num = <?= $Image->count(['sh' => 1]) ?>;
 
                     function pp(x) {
                         var s, t;
                         if (x == 1 && nowpage - 1 >= 0) {
                             nowpage--;
                         }
-                        if (x == 2 && (nowpage + 1) * 3 <= num * 1 + 3) {
+                        if (x == 2 && nowpage + 1 <= num - 3) {
                             nowpage++;
                         }
                         $(".im").hide()

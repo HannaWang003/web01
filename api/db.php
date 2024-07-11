@@ -107,7 +107,7 @@ class DB
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-$Title = new DB('title');
+$Title = new DB('titles');
 $Ad = new DB('ad');
 $Mvim = new DB('mvim');
 $Image = new DB('image');
