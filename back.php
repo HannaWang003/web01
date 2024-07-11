@@ -93,15 +93,15 @@ include_once "./api/db.php";
                 </table>
                 <!-- include -->
                 <?php
-				$do = $_GET['do'] ?? "title";
-				$file = "./back/$do.php";
-				if (file_exists($file)) {
-					include $file;
-				} else {
-					include "./back/title.php";
-				}
+                $do = $_GET['do'] ?? "title";
+                $file = "./back/$do.php";
+                if (file_exists($file)) {
+                    include $file;
+                } else {
+                    include "./back/title.php";
+                }
 
-				?>
+                ?>
             </div>
             <div id="alt"
                 style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;">
@@ -110,7 +110,7 @@ include_once "./api/db.php";
         <div style="clear:both;"></div>
         <div
             style="width:1024px; left:0px; position:relative; background:#FC3; margin-top:4px; height:123px; display:block;">
-            <span class="t" style="line-height:123px;"></span>
+            <span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bot'] ?></span>
         </div>
     </div>
 

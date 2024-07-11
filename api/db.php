@@ -113,7 +113,7 @@ $Mvim = new DB('mvim');
 $Image = new DB('image');
 $News = new DB('news');
 $Total = new DB('total');
-$Bot = new DB('bot');
+$Bottom = new DB('bot');
 $Menu = new DB('menu');
 $Admin = new DB('admin');
 if (!isset($_SESSION['in'])) {
