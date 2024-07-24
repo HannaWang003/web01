@@ -76,15 +76,17 @@ include_once "./api/db.php";
             </div>
             <div class="di"
                 style="height:540px; border:#999 1px solid; width:53.2%; margin:2px 0px 0px 0px; float:left; position:relative; left:20px;">
-                <marquee scrolldelay="120" direction="left" style="position:absolute; width:100%; height:40px;">
-                    <?php
-                    $ads = $Ad->all(['sh' => 1]);
-                    foreach ($ads as $ad) {
-                        echo $ad['text'];
-                        echo "&nbsp;&nbsp;";
-                    }
-                    ?>
-                </marquee>
+                <div style="height:32px; display:block;">
+                    <marquee scrolldelay="120" direction="left" style="position:absolute; width:100%; height:40px;">
+                        <?php
+                        $ads = $Ad->all(['sh' => 1]);
+                        foreach ($ads as $ad) {
+                            echo $ad['text'];
+                            echo "&nbsp;&nbsp;";
+                        }
+                        ?>
+                    </marquee>
+                </div>
                 <?php
                 $do = $_GET['do'] ?? "main";
                 $file = "./front/$do.php";
@@ -141,13 +143,12 @@ include_once "./api/db.php";
                     </script>
                 </div>
             </div>
+            <div style="clear:both;"></div>
+            <div
+                style="width:1024px; left:0px; position:relative; background:#FC3; margin-top:4px; height:123px; display:block;">
+                <span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bottom'] ?></span>
+            </div>
         </div>
-        <div style="clear:both;"></div>
-        <div
-            style="width:1024px; left:0px; position:relative; background:#FC3; margin-top:4px; height:123px; display:block;">
-            <span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bottom'] ?></span>
-        </div>
-    </div>
 
 </body>
 
