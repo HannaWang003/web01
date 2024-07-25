@@ -47,7 +47,7 @@ include_once "./api/db.php";
                             $mids = $Menu->all(['sh' => 1, 'big_id' => $big['id']]);
                             foreach ($mids as $mid) {
                             ?>
-                        <a style="color:#000; font-size:13px; text-decoration:none;display:none;position:relative;bottom:20px;left:50%;"
+                        <a style="z-index:999;color:#000; font-size:13px; text-decoration:none;display:none;position:relative;bottom:20px;left:50%;"
                             href="<?= $mid['href'] ?>" class="mid">
                             <div class="mainmu2">
                                 <?= $mid['text'] ?></div>
@@ -121,16 +121,29 @@ include_once "./api/db.php";
                     onclick="lo('?do=admin')">管理登入</button>
                 <div style="width:89%; height:480px;" class="dbor">
                     <span class="t botli">校園映象區</span>
+                    <div style="margin:auto;text-align:center;padding:5px;">
+                        <img src="./icon/up.jpg" onclick="pp(1)">
+                        <?php
+                        $images = $Image->all(['sh' => 1]);
+                        foreach ($images as $idx => $image) {
+                        ?>
+                        <div class="im" id="ssaa<?= $idx ?>"><img src="./img/<?= $image['img'] ?>"
+                                style="width:150px;height:103px;border:5px solid orange;margin:5px;"></div>
+                        <?php
+                        }
+                        ?>
+                        <img src="./icon/dn.jpg" onclick="pp(2)">
+                    </div>
                     <script>
                     var nowpage = 0,
-                        num = 0;
+                        num = <?= $Image->count(['sh' => 1]) ?>;
 
                     function pp(x) {
                         var s, t;
-                        if (x == 1 && nowpage - 1 >= 0) {
+                        if (x == 1 && nowpage > 0) {
                             nowpage--;
                         }
-                        if (x == 2 && (nowpage + 1) * 3 <= num * 1 + 3) {
+                        if (x == 2 && nowpage < num - 3) {
                             nowpage++;
                         }
                         $(".im").hide()
