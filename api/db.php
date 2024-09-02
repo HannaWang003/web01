@@ -46,7 +46,7 @@ class DB
     }
     function all($where = "", $other = "")
     {
-        $sql = "seslec * from `$this->table` ";
+        $sql = "select * from `$this->table` ";
         $sql = $this->sql_all($sql, $where, $other);
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -116,3 +116,14 @@ $Bottom = new DB('bottom');
 $Admin = new DB('admin');
 $News = new DB('news');
 $Menu = new DB('menu');
+
+//小功能
+if (isset($_GET['do'])) {
+    if (isset(${ucfirst($_GET['do'])})) {
+        $table = $_GET['do'];
+        $DB = ${ucfirst($table)};
+    }
+} else {
+    $table = 'title';
+    $DB = ${ucfirst($table)};
+}
