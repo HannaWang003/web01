@@ -107,3 +107,12 @@ class DB
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+$Title = new DB('title');
+$Ad = new DB('ad');
+$Mvim = new DB('mvim');
+$Image = new DB('image');
+$Total = new DB('total');
+$Bottom = new DB('bottom');
+$Admin = new DB('admin');
+$News = new DB('news');
+$Menu = new DB('menu');
