@@ -27,7 +27,7 @@
         <tbody>
             <tr>
                 <td width="200px"><input type="button"
-                        onclick="op('#cover','#cvr','./modal/<?= $table ?>.php?table=<?= $table ?>')" value="新增動態文字廣告">
+                        onclick="op('#cover','#cvr','./modal/<?= $table ?>.php?do=<?= $table ?>')" value="新增動態文字廣告">
                 </td>
                 <td class="cent"><input type="submit" value="修改確定"><input type="reset" value="重置">
                 </td>

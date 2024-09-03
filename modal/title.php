@@ -1,5 +1,5 @@
 <p class="t cent botli">新增標題區圖片</p>
-<form action="../api/add.php?do=<?= $_GET['table'] ?>" method="post" enctype="multipart/form-data">
+<form action="../api/add.php?do=<?= $_GET['do'] ?>" method="post" enctype="multipart/form-data">
     <table style="margin:auto;">
         <tr>
             <td style="text-align:end">標題區圖片：</td>

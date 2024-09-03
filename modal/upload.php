@@ -6,6 +6,9 @@ switch ($_GET['do']) {
     case "mvim":
         $page = "動畫";
         break;
+    case "image":
+        $page = "校園映像資料";
+        break;
 }
 ?>
 <p class="t cent botli">更新<?= $page ?>圖片</p>
