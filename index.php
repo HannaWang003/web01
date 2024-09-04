@@ -14,6 +14,14 @@ include_once "./api/db.php";
     <script src="./js/jquery-1.9.1.min.js"></script>
     <script src="./js/js.js"></script>
 </head>
+<style>
+.sub {
+    position: relative;
+    left: 20px;
+    top: -10px;
+    z-index: 100px;
+}
+</style>
 
 <body>
     <div id="cover" style="display:none; ">
@@ -25,8 +33,8 @@ include_once "./api/db.php";
     <div id="main">
         <a title="" href="index.php">
             <?php
-			$title = $Title->find(['sh' => 1]);
-			?>
+            $title = $Title->find(['sh' => 1]);
+            ?>
             <div class="ti" style="background:url('./img/<?= $title['img'] ?>'); background-size:cover;"></div>
             <!--標題-->
         </a>
@@ -35,7 +43,38 @@ include_once "./api/db.php";
                 <div id="menuput" class="dbor">
                     <!--主選單放此-->
                     <span class="t botli">主選單區</span>
+                    <?php
+                    $menus = $Menu->all(['big_id' => 0]);
+                    foreach ($menus as $menu) {
+                    ?>
+                    <div class="nav">
+                        <a style="color:#000; font-size:13px; text-decoration:none;" href="<?= $menu['url'] ?>">
+                            <div class="mainmu"><?= $menu['text'] ?></div>
+                        </a>
+                        <?php
+                            $subs = $Menu->all(['big_id' => $menu['id']]);
+                            foreach ($subs as $sub) {
+                            ?>
+                        <a class="sub" style="color:#000; font-size:13px; text-decoration:none;display:none"
+                            href="<?= $sub['url'] ?>">
+                            <div class="mainmu2"><?= $sub['text'] ?></div>
+                        </a>
+                        <?php
+                            }
+                            ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
+                <script>
+                $('.nav').hover(function() {
+                    $('.sub').hide();
+                    $(this).children('.sub').show();
+                }, () => {
+                    $('.sub').hide();
+                })
+                </script>
                 <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
                     <span class="t">進站總人數 :
                         <?= $Total->find(1)['total'] ?> </span>
@@ -44,16 +83,24 @@ include_once "./api/db.php";
             <div class="di"
                 style="height:540px; border:#999 1px solid; width:53.2%; margin:2px 0px 0px 0px; float:left; position:relative; left:20px;">
                 <marquee scrolldelay="120" direction="left" style="position:absolute; width:100%; height:40px;">
+                    <?php
+                    $ads = $Ad->all(['sh' => 1]);
+                    foreach ($ads as $ad) {
+                    ?>
+                    <span><?= $ad['text'] ?></span>&nbsp;&nbsp;
+                    <?php
+                    }
+                    ?>
                 </marquee>
                 <?php
-				$do=($_GET['do'])??"main";
-				$file="./front/$do.php";
-				if(file_exists($file)){
-					include $file;
-				}else{
-					include "./front/main.php";
-				}
-				?>
+                $do = ($_GET['do']) ?? "main";
+                $file = "./front/$do.php";
+                if (file_exists($file)) {
+                    include $file;
+                } else {
+                    include "./front/main.php";
+                }
+                ?>
             </div>
             <div id="alt"
                 style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;">
@@ -79,16 +126,41 @@ include_once "./api/db.php";
                     onclick="lo('?do=admin')">管理登入</button>
                 <div style="width:89%; height:480px;" class="dbor">
                     <span class="t botli">校園映象區</span>
+                    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <img src="./icon/up.jpg" onclick="pp(1)">
+                        <?php
+                        $num = $Image->count(['sh' => 1]);
+                        $images = $Image->all(['sh' => 1]);
+                        foreach ($images as $key => $image) {
+                        ?>
+                        <div class="im" id="ssaa<?= $key ?>"><img src="./img/<?= $image['img'] ?>" alt=""></div>
+                        <?php
+                        }
+                        ?>
+                        <img src="./icon/dn.jpg" onclick="pp(2)">
+                    </div>
+                    <style>
+                    .im {
+                        display: none;
+
+                        img {
+                            width: 150px;
+                            height: 103px;
+                            margin: 10px;
+                            border: 5px solid orange;
+                        }
+                    }
+                    </style>
                     <script>
                     var nowpage = 0,
-                        num = 0;
+                        num = <?= $num ?>;
 
                     function pp(x) {
                         var s, t;
                         if (x == 1 && nowpage - 1 >= 0) {
                             nowpage--;
                         }
-                        if (x == 2 && (nowpage + 1) * 3 <= num * 1 + 3) {
+                        if (x == 2 && (nowpage + 1) <= num - 3) {
                             nowpage++;
                         }
                         $(".im").hide()
