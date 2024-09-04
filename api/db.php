@@ -116,7 +116,13 @@ $Bottom = new DB('bottom');
 $Admin = new DB('admin');
 $News = new DB('news');
 $Menu = new DB('menu');
-
+//進站人數計算
+if (!isset($_SESSION['in'])) {
+    $_SESSION['in'] = 1;
+    $total = $Total->find(1)['total'];
+    $total++;
+    $Total->save(['id' => 1, 'total' => $total]);
+}
 //小功能
 if (isset($_GET['do'])) {
     if (isset(${ucfirst($_GET['do'])})) {
