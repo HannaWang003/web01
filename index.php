@@ -24,8 +24,9 @@ include_once "./api/db.php";
     </div>
     <div id="main">
         <a title="" href="index.php">
-            <div class="ti" style="background:url('./img/<?=$Title->find(['sh'=>1])['img']?>'); background-size:cover;"
-                title="<?=$Title->find(['sh'=>1])['text']?>">
+            <div class="ti"
+                style="background:url('./img/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;"
+                title="<?= $Title->find(['sh' => 1])['text'] ?>">
             </div>
             <!--標題-->
         </a>
@@ -34,7 +35,38 @@ include_once "./api/db.php";
                 <div id="menuput" class="dbor">
                     <!--主選單放此-->
                     <span class="t botli">主選單區</span>
+                    <?php
+                    $bigs = $Menu->all(['sh' => 1, 'big_id' => 0]);
+                    foreach ($bigs as $big) {
+                    ?>
+                    <div class="nav">
+                        <a class="mainmu" style="display:block;color:#000; font-size:13px; text-decoration:none;"
+                            href="<?= $big['url'] ?>">
+                            <?= $big['text'] ?>
+                        </a>
+                        <?php
+                            $mids = $Menu->all(['big_id' => $big['id']]);
+                            foreach ($mids as $mid) {
+                            ?>
+                        <a class="mainmu2" href="<?= $mid['url'] ?>"
+                            style="display:block;position:relative;"><?= $mid['text'] ?></a>
+                        <?php
+                            }
+                            ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
+                <script>
+                $('.mainmu2').hide();
+                $('.nav').hover(function() {
+                    $('.mainmu2').hide();
+                    $(this).children('.mainmu2').show()
+                }, () => {
+                    $('.mainmu2').hide();
+                })
+                </script>
                 <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
                     <span class="t">進站總人數 :
                         <?= $Total->find(1)['text'] ?> </span>
@@ -43,53 +75,64 @@ include_once "./api/db.php";
             <div class="di"
                 style="height:540px; border:#999 1px solid; width:53.2%; margin:2px 0px 0px 0px; float:left; position:relative; left:20px;">
                 <marquee scrolldelay="120" direction="left" style="position:absolute; width:100%; height:40px;">
+                    <?php
+                    $ads = $Ad->all(['sh' => 1]);
+                    foreach ($ads as $ad) {
+                    ?>
+                    <span><?= $ad['text'] ?></span>
+                    <?php
+                    }
+                    ?>
                 </marquee>
                 <div style="height:32px; display:block;"></div>
                 <!--正中央-->
                 <?php
-				$do = ($_GET['do']) ?? "main";
-				$file = "./front/$do.php";
-				if (file_exists($file)) {
-					include $file;
-				} else {
-					include "./front/main.php";
-				}
-				?>
+                $do = ($_GET['do']) ?? "main";
+                $file = "./front/$do.php";
+                if (file_exists($file)) {
+                    include $file;
+                } else {
+                    include "./front/main.php";
+                }
+                ?>
             </div>
+            <style>
+            a {
+                justify-content: space-between
+            }
+            </style>
             <div id="alt"
                 style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;">
             </div>
-            <script>
-            $(".sswww").hover(
-                function() {
-                    $("#alt").html("" + $(this).children(".all").html() + "").css({
-                        "top": $(this).offset().top - 50
-                    })
-                    $("#alt").show()
-                }
-            )
-            $(".sswww").mouseout(
-                function() {
-                    $("#alt").hide()
-                }
-            )
-            </script>
             <div class="di di ad" style="height:540px; width:23%; padding:0px; margin-left:22px; float:left; ">
                 <!--右邊-->
                 <button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;"
-                    onclick="lo('?do=admin')">管理登入</button>
+                    onclick="lo('?do=login')">管理登入</button>
                 <div style="width:89%; height:480px;" class="dbor">
                     <span class="t botli">校園映象區</span>
+                    <div style="display:flex;flex-direction:column;align-items:center;">
+                        <img src="./icon/up.jpg" onclick="pp(1)">
+                        <?php
+                        $images = $Image->all(['sh' => 1]);
+                        foreach ($images as $idx => $image) {
+                        ?>
+                        <img class="im" id="ssaa<?= $idx ?>" src="./img/<?= $image['img'] ?>"
+                            style="width:150px;height:103px;border:5px solid orange;margin:10px;">
+                        <?php
+                        }
+                        ?>
+                        <img src="./icon/dn.jpg" onclick="pp(2)">
+                    </div>
                     <script>
                     var nowpage = 0,
-                        num = 0;
+                        num = <?= $Image->count(['sh' => 1]) ?>;
 
                     function pp(x) {
                         var s, t;
                         if (x == 1 && nowpage - 1 >= 0) {
                             nowpage--;
                         }
-                        if (x == 2 && (nowpage + 1) * 3 <= num * 1 + 3) {
+                        if (x == 2 && nowpage + 1 <= num - 3) {
                             nowpage++;
                         }
                         $(".im").hide()

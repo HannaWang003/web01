@@ -1,5 +1,8 @@
 ﻿<?php
 include_once "./api/db.php";
+if (!isset($_SESSION['admin'])) {
+    to("index.php");
+}
 ?>
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -26,7 +29,7 @@ include_once "./api/db.php";
         <a title="" href="index.php">
             <div class="ti"
                 style="background:url('./img/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;"
-                title="<?=$Title->find(['sh'=>1])['text']?>">
+                title="<?= $Title->find(['sh' => 1])['text'] ?>">
             </div>
             <!--標題-->
         </a>
@@ -88,38 +91,38 @@ include_once "./api/db.php";
                             <td style="width:70%;font-weight:800; border:#333 1px solid; border-radius:3px;"
                                 class="cent"><a href="?do=admin" style="color:#000; text-decoration:none;">後台管理區</a>
                             </td>
-                            <td><button onclick="document.cookie='user=';location.replace('?')"
+                            <td><button onclick="location.href='./api/logout.php'" ;
                                     style="width:99%; margin-right:2px; height:50px;">管理登出</button></td>
                         </tr>
                     </tbody>
                 </table>
                 <?php
-				$do = ($_GET['do']) ?? "title";
-				$file = "./back/$do.php";
-				if (file_exists($file)) {
-					include $file;
-				} else {
-					include "./back/title.php";
-				}
-				?>
+                $do = ($_GET['do']) ?? "title";
+                $file = "./back/$do.php";
+                if (file_exists($file)) {
+                    include $file;
+                } else {
+                    include "./back/title.php";
+                }
+                ?>
             </div>
             <div id="alt"
                 style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;">
             </div>
             <script>
-            $(".sswww").hover(
-                function() {
-                    $("#alt").html("" + $(this).children(".all").html() + "").css({
-                        "top": $(this).offset().top - 50
-                    })
-                    $("#alt").show()
-                }
-            )
-            $(".sswww").mouseout(
-                function() {
-                    $("#alt").hide()
-                }
-            )
+                $(".sswww").hover(
+                    function() {
+                        $("#alt").html("" + $(this).children(".all").html() + "").css({
+                            "top": $(this).offset().top - 50
+                        })
+                        $("#alt").show()
+                    }
+                )
+                $(".sswww").mouseout(
+                    function() {
+                        $("#alt").hide()
+                    }
+                )
             </script>
         </div>
         <div style="clear:both;"></div>
