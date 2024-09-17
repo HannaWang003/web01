@@ -80,6 +80,7 @@ class DB
             $val = "('" . join("','", $ary) . "')";
             $sql .= "{$col} values {$val}";
         }
+        return $this->pdo->exec($sql);
     }
     function find($id)
     {
@@ -115,7 +116,7 @@ $Menu = new DB('menu');
 if (!isset($_SESSION['visited'])) {
     $_SESSION['visited'] = 1;
     $total = $Total->find(1);
-    $total['num']++;
+    $total['total']++;
     $Total->save($total);
 }
 

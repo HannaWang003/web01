@@ -1,5 +1,8 @@
 ﻿<?php
 include_once "./api/db.php";
+if (!isset($_SESSION['admin'])) {
+	to("index.php?do=admin");
+}
 ?>
 <!DOCTYPE html
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -24,8 +27,9 @@ include_once "./api/db.php";
 	</div>
 	<iframe style="display:none;" name="back" id="back"></iframe>
 	<div id="main">
-		<a title="" href="?">
-			<div class="ti" style="background:url('./img/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;">
+		<a title="" href="index.php">
+			<div class="ti"
+				style="background:url('./img/<?= $Title->find(['sh' => 1])['img'] ?>'); background-size:cover;">
 			</div>
 			<!--標題-->
 		</a>

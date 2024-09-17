@@ -6,10 +6,10 @@
 <script>
 var lin = new Array();
 <?php
-						$images=$Image->all(['sh'=>1]);
-						foreach($images as $img){
+						$mvims=$Mvim->all(['sh'=>1]);
+						foreach($mvims as $mvim){
 							?>
-lin.push('<?=$img['img']?>');
+lin.push('<?=$mvim['img']?>');
 <?php
 						}
 						?>
