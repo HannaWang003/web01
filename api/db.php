@@ -124,12 +124,9 @@ $Title = new DB('title');
 
 if (isset($_GET['do'])) {
     if (isset(${ucfirst($_GET['do'])})) {
-        $table = $_GET['do'];
-        $DB = ${ucfirst($table)};
+        $do = $_GET['do'];
+        $DB = ${ucfirst($do)};
     }
-} else {
-    $table = "title";
-    $DB = ${ucfirst($table)};
 }
 
 if (!isset($_SESSION['visited'])) {

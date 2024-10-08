@@ -91,7 +91,8 @@ include_once "./api/db.php";
 				<?php
 				$do = ($_GET['do']) ?? "main";
 				$file = "./front/$do.php";
-				if (file_exists($file)) {
+				if (isset(${ucfirst($do)}) && file_exists($file)) {
+					$DB = ${ucfirst($do)};
 					include $file;
 				} else {
 					include "./front/main.php";
